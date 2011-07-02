@@ -951,7 +951,7 @@ main(int argc, char **argv) {
     else
         ui_print("Shutting down...\n");
     sync();
-    reboot((!poweroff) ? RB_AUTOBOOT : RB_POWER_OFF);
+    reboot_wrapper((!poweroff) ? "recovery_done" : ""); //TODO: replace "" with whatever powers off the phone.
     return EXIT_SUCCESS;
 }
 
