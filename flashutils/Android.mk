@@ -9,6 +9,9 @@ LOCAL_MODULE := libflashutils
 LOCAL_MODULE_TAGS := eng
 LOCAL_C_INCLUDES += bootable/recovery
 LOCAL_STATIC_LIBRARIES := libmmcutils libmtdutils libbmlutils libcrecovery
+ifneq ($(BOARD_BOOTIMAGE_PARTITION),)
+    LOCAL_CFLAGS += -DBOARD_BOOTIMAGE_PARTITION=\"$(BOARD_BOOTIMAGE_PARTITION)\"
+endif
 include $(BUILD_STATIC_LIBRARY)
 
 include $(CLEAR_VARS)
