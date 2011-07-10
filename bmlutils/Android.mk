@@ -1,15 +1,16 @@
 LOCAL_PATH := $(call my-dir)
 
 include $(CLEAR_VARS)
-LOCAL_CFLAGS += -DBOARD_BOOT_DEVICE=\"$(BOARD_BOOT_DEVICE)\"
-ifneq ($(BOARD_BOOTIMAGE_PARTITION),)
-    LOCAL_CFLAGS += -DBOARD_BOOTIMAGE_PARTITION=\"$(BOARD_BOOTIMAGE_PARTITION)\"
-endif
-ifneq ($(BOARD_RECOVERYIMAGE_PARTITION),)
-    LOCAL_CFLAGS += -DBOARD_RECOVERYIMAGE_PARTITION=\"$(BOARD_RECOVERYIMAGE_PARTITION)\"
-endif
+
+BOARD_RECOVERY_DEFINES := BOARD_BML_BOOT BOARD_BML_RECOVERY
+
+$(foreach board_define,$(BOARD_RECOVERY_DEFINES), \
+  $(if $($(board_define)), \
+    $(eval LOCAL_CFLAGS += -D$(board_define)=\"$($(board_define))\") \
+  ) \
+  )
+
 LOCAL_SRC_FILES := bmlutils.c
 LOCAL_MODULE := libbmlutils
 LOCAL_MODULE_TAGS := eng
-
 include $(BUILD_STATIC_LIBRARY)
